@@ -22,5 +22,7 @@ steps:
     testResultsFiles: '**/surefire-reports/TEST-*.xml'
     goals: 'package'
 - task: PowerShell@2
-  targetType: 'inline'
-      script: 'Write-Host "This is me running PowerShell code!"'
+  inputs:
+    targetType: 'inline'
+    script: 'Write-Host "This is me running Powershell code!"'
+     
