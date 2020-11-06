@@ -14,7 +14,8 @@ steps:
 - task: PowerShell@2
   inputs:
     targetType: 'filePath'
-    filePath: '$(System.DefaultWorkingDirectory)/buildtask/run.ps1'
+    filePath: '$(System.DefaultWorkingDirectory)/buildtask/testrun.ps1'
+    arguments: '-TestResultPath $(TestResultPath) -OutputFolder $(OutputFolder) -JsonMapping $(JsonMapping) -InputType $(InputType)'
     errorActionPreference: 'continue'
 - task: Maven@3
   inputs:
