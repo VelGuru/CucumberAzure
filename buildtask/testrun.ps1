@@ -38,7 +38,7 @@ param($TestResultPath,$OutputFolder,$JsonMapping,$InputType)
     Write-host "Creation of dynamic .NET DLL using ROSLYN..."
     Write-host "-------------------------------------------------"
 
-    Start-Process  -FilePath ".\Microsoft.DX.JavaTestBridge.UnitTestGenerator.exe" -Arguments "AutomatedTestAssembly `"$jsonMapping`" $testResultPath" -RequireExitCodeZero
+    Start-Process  -FilePath ".\Microsoft.DX.JavaTestBridge.UnitTestGenerator.exe" -ArgumentList "AutomatedTestAssembly `"$jsonMapping`" $testResultPath" -RequireExitCodeZero
     
     if($LASTEXITCODE -eq 0){
 
@@ -47,7 +47,7 @@ param($TestResultPath,$OutputFolder,$JsonMapping,$InputType)
         Write-host "Association of tests with VSTS..."
         Write-host "-------------------------------------------------"
 
-        Start-Process -FilePath ".\Microsoft.DX.JavaTestBridge.VSTS.exe" -Arguments "$vsoAccountName $projectName AutomatedTestAssembly.dll $username $password" -RequireExitCodeZero
+        Start-Process -FilePath ".\Microsoft.DX.JavaTestBridge.VSTS.exe" -ArgumentList "$vsoAccountName $projectName AutomatedTestAssembly.dll $username $password" -RequireExitCodeZero
         if($LASTEXITCODE -eq 0)
         {
           Write-host "Association completed successfully"
