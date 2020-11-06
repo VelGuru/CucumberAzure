@@ -1,5 +1,6 @@
 # Maven
 
+
 # Build your Java project and run tests with Apache Maven.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/java
@@ -11,6 +12,14 @@ pool:
   vmImage: 'ubuntu-latest'
 
 steps:
+- task: CucumberTestBridgeForTestPlan@1
+  inputs:
+    testResultPath: 'target/surefire-reports'
+    outputFolder: 'target'
+    inputType: 'file'
+    jsonMappingFile: 'TestJson.json'
+    username: 'Velguru14@gmail.com'
+    password: 'Velguru!994'
 - task: PowerShell@2
   inputs:
     targetType: 'filePath'
