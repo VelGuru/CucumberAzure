@@ -32,14 +32,13 @@ param($TestResultPath,$OutputFolder,$JsonMapping,$InputType)
 
     #Set the working directory.
     $cwd = "bin"
-    Assert-VstsPath -LiteralPath $cwd -PathType Container
     Write-host "Setting working directory to '$cwd'."
     Set-Location $cwd
 
     Write-host "Creation of dynamic .NET DLL using ROSLYN..."
     Write-host "-------------------------------------------------"
 
-    Invoke-VstsTool -FileName ".\Microsoft.DX.JavaTestBridge.UnitTestGenerator.exe" -Arguments "AutomatedTestAssembly `"$jsonMapping`" $testResultPath" -RequireExitCodeZero
+    Start-Process  -FilePath ".\Microsoft.DX.JavaTestBridge.UnitTestGenerator.exe" -Arguments "AutomatedTestAssembly `"$jsonMapping`" $testResultPath" -RequireExitCodeZero
     
     if($LASTEXITCODE -eq 0){
 
@@ -48,7 +47,7 @@ param($TestResultPath,$OutputFolder,$JsonMapping,$InputType)
         Write-host "Association of tests with VSTS..."
         Write-host "-------------------------------------------------"
 
-        Invoke-VstsTool -FileName ".\Microsoft.DX.JavaTestBridge.VSTS.exe" -Arguments "$vsoAccountName $projectName AutomatedTestAssembly.dll $username $password" -RequireExitCodeZero
+        Start-Process -FilePath ".\Microsoft.DX.JavaTestBridge.VSTS.exe" -Arguments "$vsoAccountName $projectName AutomatedTestAssembly.dll $username $password" -RequireExitCodeZero
         if($LASTEXITCODE -eq 0)
         {
           Write-host "Association completed successfully"
