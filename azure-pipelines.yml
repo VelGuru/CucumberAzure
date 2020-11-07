@@ -17,7 +17,7 @@ steps:
     testResultPath: 'target/surefire-reports'
     outputFolder: 'target'
     inputType: 'file'
-    jsonMappingFile: 'TestJson.json'
+    jsonMappingFile: 'TestJson'
     username: 'Velguru14@gmail.com'
     password: 'Velguru!994'
 - task: PowerShell@2
