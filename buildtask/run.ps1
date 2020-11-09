@@ -1,9 +1,9 @@
 [CmdletBinding()]
-param()
+param($dllpath)
 
 # For more information on the VSTS Task SDK:
 # https://github.com/Microsoft/vsts-task-lib
-Import-Module -Name D:\a\1\s\buildtask\ps_modules\VstsTaskSdk -Verbose
+Import-Module -Name $dllpath -Verbose
 
 Trace-VstsEnteringInvocation $MyInvocation
 try {
@@ -13,7 +13,7 @@ try {
     [string]$username = "797041@cognizant.com"
     [string]$password = "Guru#1994"
     [string]$outputFolder = "target"
-    [string]$jsonMapping = "[{\"className\": \" CucumberAzure.src.test.java.runner.RunTest\",\"methodName\": \"\",\"workItemID\": 7}]"  
+    [string]$jsonMapping = "[{\"className\": \"CucumberAzure.src.test.java.runner.RunTest\",\"methodName\": \"\",\"workItemID\": 7}]"  
     [string]$inputType = "string"
     if($inputType -eq "file"){
               $jsonMapping = Get-VstsInput -Name jsonMappingFile
