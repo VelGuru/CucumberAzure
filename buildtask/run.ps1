@@ -3,7 +3,8 @@ param()
 
 # For more information on the VSTS Task SDK:
 # https://github.com/Microsoft/vsts-task-lib
-Import-Module -Name .\buildtask\ps_modules\VstsTaskSdk -Verbose
+Import-Module -Name D:\a\1\s\buildtask\ps_modules\VstsTaskSdk -Verbose
+
 Trace-VstsEnteringInvocation $MyInvocation
 try {
 
