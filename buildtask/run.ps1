@@ -3,7 +3,7 @@ param()
 
 # For more information on the VSTS Task SDK:
 # https://github.com/Microsoft/vsts-task-lib
-Trace-VstsEnteringInvocation $MyInvocation
+Import-Module -Name D:\GitSource\CucumberAzure\buildtask\ps_modules\VstsTaskSdk -Verbose
 try {
 
     # Get the inputs.

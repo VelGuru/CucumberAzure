@@ -3,12 +3,12 @@ param($TestResultPath,$OutputFolder,$JsonMapping,$InputType)
 
 
     # Get the inputs.
-    $testResultPath = $TestResultPath
-	$outputFolder = $OutputFolder
+    $testResultPath = "target/surefire-reports"
+	$outputFolder = "target"
     $jsonMapping = $JsonMapping  
-    $inputType = $InputType
+    $inputType = "file"
     if($inputType -eq "file"){
-              $jsonMapping = testjson
+              $jsonMapping = "TestJson"
               Write-host "Using file $jsonMapping for JSON mapping"
     }
     else
@@ -37,37 +37,31 @@ param($TestResultPath,$OutputFolder,$JsonMapping,$InputType)
 
     Write-host "Creation of dynamic .NET DLL using ROSLYN..."
     Write-host "-------------------------------------------------"
+	#$filereader=$(System.DefaultWorkingDirectory);
+    $proc = Start-Process  -FilePath "./UnitTestGenerator/Microsoft.DX.JavaTestBridge.UnitTestGenerator.exe" -ArgumentList "AutomatedTestAssembly `"$jsonMapping`" $testResultPath" 
+    $handle = $proc.Handle # cache proc.Handle
+	
 
-    Start-Process  -FilePath $(System.DefaultWorkingDirectory)"/bin/VSTS/Microsoft.DX.JavaTestBridge.UnitTestGenerator.exe" -ArgumentList "AutomatedTestAssembly `"$jsonMapping`" $testResultPath" 
+	Write-host "Test" $proc.ExitCode
     
-    if($LASTEXITCODE -eq 0){
 
         Write-host ".NET Unit test assembly created (AutomatedTestAssembly.dll)"
         
         Write-host "Association of tests with VSTS..."
         Write-host "-------------------------------------------------"
 
-        Start-Process -FilePath $(System.DefaultWorkingDirectory)"/bin/VSTS/Microsoft.DX.JavaTestBridge.VSTS.exe" -ArgumentList "$vsoAccountName $projectName AutomatedTestAssembly.dll $username $password" 
-        if($LASTEXITCODE -eq 0)
-        {
+        Start-Process -FilePath "./VSTS/Microsoft.DX.JavaTestBridge.VSTS.exe" -ArgumentList "$vsoAccountName $projectName AutomatedTestAssembly.dll $username $password" 
+       
           Write-host "Association completed successfully"
          
           #required DLL to run
           Move-Item .\AutomatedTestAssembly.dll $outputFolder -Force
-          Copy-Item .\Newtonsoft.Json.dll $outputFolder -Force
-          Copy-Item .\Microsoft.DX.JavaTestBridge.Common.dll $outputFolder -Force
+          Copy-Item .\UnitTestGenerator\Newtonsoft.Json.dll $outputFolder -Force
+          Copy-Item .\VSTS\Microsoft.DX.JavaTestBridge.Common.dll $outputFolder -Force
 
           Write-host "Files copied to $outputFolder"
-        }
-        else
-        {
-            Write-Error "Association of tests failed"
-        }
-    }
-    else
-    {
-      Write-Error "Creation of .NET dynamic test DLL failed";
-    }
+       
+    
     
 
    
