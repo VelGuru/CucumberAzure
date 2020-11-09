@@ -3,16 +3,17 @@ param()
 
 # For more information on the VSTS Task SDK:
 # https://github.com/Microsoft/vsts-task-lib
+Import-Module -Name D:\GitSource\CucumberAzure\buildtask\ps_modules\VstsTaskSdk -Verbose
 Trace-VstsEnteringInvocation $MyInvocation
 try {
 
     # Get the inputs.
-    [string]$testResultPath = Get-VstsInput -Name testResultPath
-    [string]$username = Get-VstsInput -Name username
-    [string]$password = Get-VstsInput -Name password
-    [string]$outputFolder = Get-VstsInput -Name outputFolder
-    [string]$jsonMapping = Get-VstsInput -Name jsonMapping  
-    [string]$inputType = Get-VstsInput -Name inputType
+    [string]$testResultPath = "target/surefire-reports"
+    [string]$username = "797041@cognizant.com"
+    [string]$password = "Guru#1994"
+    [string]$outputFolder = "target"
+    [string]$jsonMapping = "[{\"className\": \" CucumberAzure.src.test.java.runner.RunTest\",\"methodName\": \"\",\"workItemID\": 7}]"  
+    [string]$inputType = "string"
     if($inputType -eq "file"){
               $jsonMapping = Get-VstsInput -Name jsonMappingFile
               Write-host "Using file $jsonMapping for JSON mapping"
